@@ -1,0 +1,11 @@
+*.swp
+*~
+/target
+/lib
+/classes
+/checkouts
+*.jar
+*.class
+/db
+dependency-reduced-pom.xml
+nbactions.xml
