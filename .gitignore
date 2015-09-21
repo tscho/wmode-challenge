@@ -9,3 +9,5 @@
 /db
 dependency-reduced-pom.xml
 nbactions.xml
+.idea
+*.iml

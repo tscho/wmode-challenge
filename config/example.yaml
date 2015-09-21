@@ -1,0 +1,16 @@
+logging:
+  level: DEBUG
+  appenders:
+    - type: console
+      threshold: INFO
+      target: STDERR
+
+database:
+  driverClass: org.postgresql.Driver
+  user: <user>
+  password: <password>
+  url: jdbc:postgresql://example.com:5432/<database>
+  validationQuery: "/* Health Check */ SELECT 1"
+
+appDirectOauthKey: <key>
+appDirectOauthSecret: <secret>
