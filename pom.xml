@@ -108,7 +108,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.tschoend.wmode-challenge.AppDirect</mainClass>
+                                    <mainClass>com.tschoend.wmodechallenge.ChallengeWebApp</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

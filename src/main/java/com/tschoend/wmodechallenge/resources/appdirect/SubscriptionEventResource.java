@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
  * Created by tom on 2015-09-20.
  */
 @Path("/appdirect/subscription")
-public class SubscriptionResource {
+public class SubscriptionEventResource {
     @Path("/create/")
     @Produces(MediaType.APPLICATION_XML)
     public AppDirectResult createEvent(@QueryParam("eventUrl") String eventUrl) {

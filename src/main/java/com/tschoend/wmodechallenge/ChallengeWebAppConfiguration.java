@@ -13,27 +13,27 @@ import javax.validation.constraints.NotNull;
 public class ChallengeWebAppConfiguration extends Configuration {
     @Valid
     @NotNull
+    @JsonProperty
     private DataSourceFactory database = new DataSourceFactory();
 
-    @JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
 
     @Valid
     @NotNull
+    @JsonProperty
     private String appDirectOauthKey;
 
-    @JsonProperty("appdirectOauthKey")
     public String getAppDirectOauthKey() {
         return appDirectOauthKey;
     }
 
     @Valid
     @NotNull
+    @JsonProperty
     private String appDirectOauthSecret;
 
-    @JsonProperty("appDirectOauthSecret")
     public String getAppDirectOauthSecret() {
         return appDirectOauthSecret;
     }
