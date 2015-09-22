@@ -1,7 +1,8 @@
-package com.tschoend.wmodechallenge.model;
+package com.tschoend.wmodechallenge.model.appdirect;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.net.URL;
 
@@ -10,6 +11,7 @@ import java.net.URL;
  */
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class MarketPlace {
     private URL baseUrl;

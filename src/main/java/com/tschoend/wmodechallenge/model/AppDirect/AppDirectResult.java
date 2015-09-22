@@ -1,9 +1,8 @@
-package com.tschoend.wmodechallenge.model;
+package com.tschoend.wmodechallenge.model.appdirect;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Data;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.UUID;
 
 /**

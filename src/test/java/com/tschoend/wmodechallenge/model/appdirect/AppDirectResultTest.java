@@ -1,12 +1,13 @@
-package com.tschoend.wmodechallenge.model;
+package com.tschoend.wmodechallenge.model.appdirect;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.tschoend.wmodechallenge.model.appdirect.AppDirectErrorCode;
+import com.tschoend.wmodechallenge.model.appdirect.AppDirectResult;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 
 /**

@@ -1,9 +1,13 @@
 package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.sun.jersey.oauth.signature.OAuthParameters;
+import com.tschoend.wmodechallenge.filters.OAuthProvider;
 import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -17,15 +21,27 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
     @Override
     public void initialize(Bootstrap<ChallengeWebAppConfiguration> bootstrap) {
+        // For XML request/result serialization
         XmlBundle xmlBundle = new XmlBundle();
         xmlBundle.getXmlMapper().configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-
         bootstrap.addBundle(xmlBundle);
+
+        bootstrap.addBundle(new MigrationsBundle<ChallengeWebAppConfiguration>() {
+            @Override
+            public DataSourceFactory getDataSourceFactory(ChallengeWebAppConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        });
     }
 
     @Override
     public void run(ChallengeWebAppConfiguration challengeWebAppConfiguration, Environment environment) throws Exception {
-        environment.jersey().register(new SubscriptionEventResource());
+        OAuthProvider provider = new OAuthProvider(
+                challengeWebAppConfiguration.getAppDirectOauthKey(),
+                challengeWebAppConfiguration.getAppDirectOauthSecret());
+
+
+        environment.jersey().register(new SubscriptionEventResource(provider));
         environment.jersey().disable();
     }
 }

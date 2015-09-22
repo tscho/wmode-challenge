@@ -1,4 +1,4 @@
-package com.tschoend.wmodechallenge.model;
+package com.tschoend.wmodechallenge.model.appdirect;
 
 /**
  * Created by tom on 2015-09-20.
