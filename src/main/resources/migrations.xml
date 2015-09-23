@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="tscho">
+        <createTable tableName="accounts">
+            <column name="account_identifier" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="admin_uuid" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="edition_code" type="varchar(256)"/>
+        </createTable>
+        <createTable tableName="users">
+            <column name="uuid" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="email" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="language" type="CHAR(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="open_id" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="accounts" indexName="fk_account_admin_user">
+            <column name="admin_uuid">
+                <constraints foreignKeyName="fk_account_admin_user" referencedTableName="users" referencedColumnNames="uuid"/>
+            </column>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

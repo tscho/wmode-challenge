@@ -1,4 +1,4 @@
-package com.tschoend.wmodechallenge.model.appdirect;
+package com.tschoend.wmodechallenge.model.appdirect.dto;
 
 import lombok.Data;
 

@@ -67,6 +67,11 @@
             <artifactId>oauth-signature</artifactId>
             <version>1.19</version>
         </dependency>
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-hibernate</artifactId>
+            <version>${dropwizard.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>

@@ -1,9 +1,8 @@
-package com.tschoend.wmodechallenge.model.appdirect;
+package com.tschoend.wmodechallenge.model.appdirect.dto;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.tschoend.wmodechallenge.model.appdirect.AppDirectErrorCode;
-import com.tschoend.wmodechallenge.model.appdirect.AppDirectResult;
+import com.tschoend.wmodechallenge.model.appdirect.constants.AppDirectErrorCode;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +26,7 @@ public class AppDirectResultTest extends TestCase {
         String message = "It worked";
         UUID id = UUID.randomUUID();
 
-        AppDirectResult result = new AppDirectResult();
+        AppDirectResultBean result = new AppDirectResultBean();
         result.setSuccess(true);
         result.setAccountIdentifier(id);
         result.setMessage(message);
@@ -47,7 +46,7 @@ public class AppDirectResultTest extends TestCase {
     public void testSerializationWithError() throws Exception {
         String message = "It didn't work :(";
 
-        AppDirectResult result = new AppDirectResult();
+        AppDirectResultBean result = new AppDirectResultBean();
         result.setSuccess(false);
         result.setMessage(message);
         result.setErrorCode(AppDirectErrorCode.UNKNOWN_ERROR);

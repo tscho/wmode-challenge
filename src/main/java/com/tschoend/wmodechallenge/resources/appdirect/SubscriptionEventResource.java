@@ -2,7 +2,7 @@ package com.tschoend.wmodechallenge.resources.appdirect;
 
 import com.sun.jersey.oauth.signature.OAuthRequest;
 import com.tschoend.wmodechallenge.filters.OAuthProvider;
-import com.tschoend.wmodechallenge.model.appdirect.AppDirectResult;
+import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -25,7 +25,7 @@ public class SubscriptionEventResource {
 
     @Path("/create/")
     @Produces(MediaType.APPLICATION_XML)
-    public AppDirectResult createEvent(
+    public AppDirectResultBean createEvent(
             @Context OAuthRequest request,
             @QueryParam("eventUrl") String eventUrl)
             throws Exception{
@@ -33,6 +33,6 @@ public class SubscriptionEventResource {
             throw new WebApplicationException("Request not verified", Response.Status.UNAUTHORIZED);
         }
 
-        return new AppDirectResult();
+        return new AppDirectResultBean();
     }
 }
