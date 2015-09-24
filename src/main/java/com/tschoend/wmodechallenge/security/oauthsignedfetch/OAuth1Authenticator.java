@@ -39,12 +39,12 @@ public class OAuth1Authenticator implements Authenticator<OauthCredentials, User
 
         for (String pair : paramPairs) {
             String[] keyValPair = pair.trim().split("=");
-            log.info("Original pair: " + pair);
+            log.debug("Original pair: " + pair);
 
             // Strip off quotations around values
             String cleanedValue = keyValPair[1].substring(1, keyValPair[1].length() - 1);
 
-            log.info("Parsed: " + keyValPair[0] + ": " + cleanedValue);
+            log.debug("Parsed: " + keyValPair[0] + ": " + cleanedValue);
             if (keyValPair[0].startsWith("oauth")) {
                 params.put(keyValPair[0], cleanedValue);
             }
@@ -72,16 +72,18 @@ public class OAuth1Authenticator implements Authenticator<OauthCredentials, User
             String expectedSignature = signer.sign(request, parameters);
             String requestSignature = OAuth.percentDecode(parameters.get(OAuth.OAUTH_SIGNATURE).first());
 
-            log.info("Request signature: " + requestSignature);
-            log.info("Computed signature: " + expectedSignature);
+            log.info("Request signature: <" + requestSignature + ">");
+            log.info("Computed signature: <" + expectedSignature + ">");
 
             if (expectedSignature.equals(requestSignature)) {
+                log.info("Signature verified");
                 User user = new User();
                 user.setRole(Role.OAUTH_VERIFICATION);
 
                 return Optional.of(user);
             }
 
+            log.warn("Signature failed verification");
             return Optional.absent();
         } catch (Exception e) {
             throw new AuthenticationException(e);

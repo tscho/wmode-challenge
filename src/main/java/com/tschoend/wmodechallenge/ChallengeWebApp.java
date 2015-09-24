@@ -1,6 +1,7 @@
 package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.model.appdirect.Account;
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
@@ -10,11 +11,14 @@ import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.ChainedAuthFactory;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import javax.ws.rs.client.Client;
 
 /**
  * Created by tom on 2015-09-20.
@@ -61,8 +65,17 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
                         null,
                         true));
 
+        Client client = new JerseyClientBuilder(environment)
+                .using(challengeWebAppConfiguration.getJerseyClientConfiguration())
+                .build(getName());
+
+        AppDirectAuthorizedClient appDirectClient = new AppDirectAuthorizedClient(
+                client,
+                challengeWebAppConfiguration.getAppDirectOauthKey(),
+                challengeWebAppConfiguration.getAppDirectOauthSecret());
+
         environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
-        environment.jersey().register(new SubscriptionEventResource());
+        environment.jersey().register(new SubscriptionEventResource(appDirectClient));
 //        environment.jersey().disable();
     }
 }

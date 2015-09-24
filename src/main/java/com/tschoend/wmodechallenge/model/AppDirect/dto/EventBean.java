@@ -19,14 +19,9 @@ import java.net.URL;
 @JacksonXmlRootElement(localName = "event")
 public class EventBean implements Serializable {
     private EventType type;
-
     private MarketPlaceBean marketplace;
-
     private EventFlag flag;
-
     private UserBean creator;
-
     private PayloadBean payload;
-
     private URL returnUrl;
 }
