@@ -1,13 +1,18 @@
 package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.sun.jersey.oauth.signature.OAuthParameters;
-import com.tschoend.wmodechallenge.filters.OAuthProvider;
+import com.tschoend.wmodechallenge.filters.OAuthDynamicFeature;
+import com.tschoend.wmodechallenge.filters.OAuthFilter;
+import com.tschoend.wmodechallenge.filters.OAuthVerifier;
 import com.tschoend.wmodechallenge.model.appdirect.Account;
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
+import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Authenticator;
+import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Factory;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthFactory;
+import io.dropwizard.auth.ChainedAuthFactory;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
@@ -51,12 +56,17 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
     @Override
     public void run(ChallengeWebAppConfiguration challengeWebAppConfiguration, Environment environment) throws Exception {
-        OAuthProvider provider = new OAuthProvider(
-                challengeWebAppConfiguration.getAppDirectOauthKey(),
-                challengeWebAppConfiguration.getAppDirectOauthSecret());
+        ChainedAuthFactory<User> chainedAuthFactory = new ChainedAuthFactory<>(
+                new OAuth1Factory<>(
+                        new OAuth1Authenticator(
+                                challengeWebAppConfiguration.getAppDirectOauthKey(),
+                                challengeWebAppConfiguration.getAppDirectOauthSecret()),
+                        User.class,
+                        null,
+                        true));
 
-
-        environment.jersey().register(new SubscriptionEventResource(provider));
+        environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
+        environment.jersey().register(new SubscriptionEventResource());
 //        environment.jersey().disable();
     }
 }

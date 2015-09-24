@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.net.URL;
+import java.security.Principal;
 import java.util.UUID;
 
 /**
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID uuid;
@@ -41,5 +42,10 @@ public class User {
     private URL openId;
 
     @NotNull
-    private Role role;
+    private String role;
+
+    @Override
+    public String getName() {
+        return firstName + lastName;
+    }
 }

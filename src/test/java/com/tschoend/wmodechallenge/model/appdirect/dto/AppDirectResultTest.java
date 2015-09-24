@@ -24,7 +24,7 @@ public class AppDirectResultTest extends TestCase {
     @Test
     public void testSerializationNoError() throws Exception {
         String message = "It worked";
-        UUID id = UUID.randomUUID();
+        long id = 1;
 
         AppDirectResultBean result = new AppDirectResultBean();
         result.setSuccess(true);
@@ -37,7 +37,7 @@ public class AppDirectResultTest extends TestCase {
                 "<?xml version='1.0' encoding='UTF-8'?><result><success>true</success><message>"
                         + message
                         + "</message><accountIdentifier>"
-                        + id.toString()
+                        + id
                         + "</accountIdentifier><errorCode/></result>",
                 valueAsString);
     }

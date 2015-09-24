@@ -1,14 +1,13 @@
 package com.tschoend.wmodechallenge.resources.appdirect;
 
-import com.sun.jersey.oauth.signature.OAuthRequest;
-import com.tschoend.wmodechallenge.filters.OAuthProvider;
+import com.tschoend.wmodechallenge.filters.OAuthAuthorized;
+import com.tschoend.wmodechallenge.model.appdirect.User;
+import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
+import io.dropwizard.auth.Auth;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Context;
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -17,22 +16,15 @@ import javax.ws.rs.core.Response;
  */
 @Path("/appdirect/subscription")
 public class SubscriptionEventResource {
-    private final OAuthProvider provider;
-
-    public SubscriptionEventResource(OAuthProvider provider) {
-        this.provider = provider;
-    }
-
+    @GET
     @Path("/create/")
     @Produces(MediaType.APPLICATION_XML)
-    public AppDirectResultBean createEvent(
-            @Context OAuthRequest request,
-            @QueryParam("eventUrl") String eventUrl)
-            throws Exception{
-        if(!provider.verify(request)) {
-            throw new WebApplicationException("Request not verified", Response.Status.UNAUTHORIZED);
+    @RolesAllowed({ Role.OAUTH_VERIFICATION })
+    public AppDirectResultBean createEvent(@Auth User user, @QueryParam("url") String eventUrl) {
+        if(user == null) {
+            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 
-        return new AppDirectResultBean();
+        return new AppDirectResultBean(true, eventUrl, 1l, null);
     }
 }
