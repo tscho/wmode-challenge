@@ -30,7 +30,7 @@ public class MinimalHttpRequest implements HttpRequest {
 
     @Override
     public void setRequestUrl(String s) {
-         this.url = s;
+        this.url = s;
     }
 
     @Override

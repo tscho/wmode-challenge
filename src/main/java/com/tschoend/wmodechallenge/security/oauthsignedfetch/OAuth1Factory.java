@@ -1,10 +1,10 @@
 package com.tschoend.wmodechallenge.security.oauthsignedfetch;
 
+import com.google.common.base.Optional;
 import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import lombok.extern.slf4j.Slf4j;
-import com.google.common.base.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.InternalServerErrorException;
@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 
 /**
  * Created by tom on 2015-09-23.
- *
+ * <p/>
  * Based on the OAuth2 example at https://github.com/dropwizard/dropwizard/blob/release/0.8.x/dropwizard-auth/src/main/java/io/dropwizard/auth/oauth/OAuthFactory.java
  */
 @Slf4j
@@ -23,6 +23,8 @@ public class OAuth1Factory<T> extends AuthFactory {
     private final boolean required;
     private final Class<T> generatedClass;
     private final String realm;
+    @Context
+    private HttpServletRequest request;
 
     public OAuth1Factory(Authenticator<OauthCredentials, T> authenticator,
                          Class<T> generatedClass,
@@ -33,9 +35,6 @@ public class OAuth1Factory<T> extends AuthFactory {
         this.realm = realm;
         this.required = required;
     }
-
-    @Context
-    private HttpServletRequest request;
 
     public OAuth1Factory(Authenticator<OauthCredentials, T> authenticator,
                          Class<T> generatedClass,
@@ -77,7 +76,7 @@ public class OAuth1Factory<T> extends AuthFactory {
                     final Optional<T> result = authenticator()
                             .authenticate(credentials);
 
-                    if(result.isPresent()) {
+                    if (result.isPresent()) {
                         return result.get();
                     }
                 }
@@ -87,7 +86,7 @@ public class OAuth1Factory<T> extends AuthFactory {
             throw new InternalServerErrorException();
         }
 
-        if(required) {
+        if (required) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 

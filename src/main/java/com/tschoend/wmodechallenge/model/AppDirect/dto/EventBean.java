@@ -1,6 +1,5 @@
 package com.tschoend.wmodechallenge.model.appdirect.dto;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.tschoend.wmodechallenge.model.appdirect.constants.EventFlag;
 import com.tschoend.wmodechallenge.model.appdirect.constants.EventType;

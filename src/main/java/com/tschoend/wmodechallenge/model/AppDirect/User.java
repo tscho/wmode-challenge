@@ -1,6 +1,5 @@
 package com.tschoend.wmodechallenge.model.appdirect;
 
-import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 

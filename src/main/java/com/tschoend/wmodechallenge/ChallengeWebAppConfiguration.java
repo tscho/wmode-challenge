@@ -15,24 +15,22 @@ public class ChallengeWebAppConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private DataSourceFactory database = new DataSourceFactory();
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String appDirectOauthKey;
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String appDirectOauthSecret;
 
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
 
-    @Valid
-    @NotNull
-    @JsonProperty
-    private String appDirectOauthKey;
-
     public String getAppDirectOauthKey() {
         return appDirectOauthKey;
     }
-
-    @Valid
-    @NotNull
-    @JsonProperty
-    private String appDirectOauthSecret;
 
     public String getAppDirectOauthSecret() {
         return appDirectOauthSecret;

@@ -1,9 +1,6 @@
 package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.tschoend.wmodechallenge.filters.OAuthDynamicFeature;
-import com.tschoend.wmodechallenge.filters.OAuthFilter;
-import com.tschoend.wmodechallenge.filters.OAuthVerifier;
 import com.tschoend.wmodechallenge.model.appdirect.Account;
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
@@ -23,10 +20,6 @@ import io.dropwizard.setup.Environment;
  * Created by tom on 2015-09-20.
  */
 public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
-    public static void main(String... args) throws Exception {
-        new ChallengeWebApp().run(args);
-    }
-
     private final HibernateBundle<ChallengeWebAppConfiguration> hibernate = new HibernateBundle<ChallengeWebAppConfiguration>(
             Account.class,
             User.class) {
@@ -35,13 +28,16 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
             return configuration.getDataSourceFactory();
         }
     };
-
     private final MigrationsBundle<ChallengeWebAppConfiguration> migrations = new MigrationsBundle<ChallengeWebAppConfiguration>() {
         @Override
         public DataSourceFactory getDataSourceFactory(ChallengeWebAppConfiguration configuration) {
             return configuration.getDataSourceFactory();
         }
     };
+
+    public static void main(String... args) throws Exception {
+        new ChallengeWebApp().run(args);
+    }
 
     @Override
     public void initialize(Bootstrap<ChallengeWebAppConfiguration> bootstrap) {

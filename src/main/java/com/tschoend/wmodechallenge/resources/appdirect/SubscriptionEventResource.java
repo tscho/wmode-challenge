@@ -1,6 +1,5 @@
 package com.tschoend.wmodechallenge.resources.appdirect;
 
-import com.tschoend.wmodechallenge.filters.OAuthAuthorized;
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
@@ -19,9 +18,9 @@ public class SubscriptionEventResource {
     @GET
     @Path("/create/")
     @Produces(MediaType.APPLICATION_XML)
-    @RolesAllowed({ Role.OAUTH_VERIFICATION })
+    @RolesAllowed({Role.OAUTH_VERIFICATION})
     public AppDirectResultBean createEvent(@Auth User user, @QueryParam("url") String eventUrl) {
-        if(user == null) {
+        if (user == null) {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 
