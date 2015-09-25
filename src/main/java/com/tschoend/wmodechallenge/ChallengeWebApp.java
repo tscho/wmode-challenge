@@ -6,7 +6,7 @@ import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
 import com.tschoend.wmodechallenge.model.appdirect.Account;
 import com.tschoend.wmodechallenge.model.appdirect.User;
-import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
+import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Authenticator;
 import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Factory;
 import com.yunspace.dropwizard.xml.XmlBundle;
@@ -80,7 +80,7 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         UserDao userDao = new UserDao(hibernate.getSessionFactory());
 
         environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
-        environment.jersey().register(new SubscriptionEventResource(appDirectClient, accountDao, userDao));
+        environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
 //        environment.jersey().disable();
     }
 }

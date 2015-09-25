@@ -24,4 +24,5 @@ public class PayloadBean implements Serializable {
 
     private AccountBean account;
     private OrderBean order;
+    private UserBean user;
 }

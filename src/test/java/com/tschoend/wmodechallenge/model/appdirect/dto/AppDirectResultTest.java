@@ -24,7 +24,7 @@ public class AppDirectResultTest extends TestCase {
     @Test
     public void testSerializationNoError() throws Exception {
         String message = "It worked";
-        long id = 1;
+        String id = "1";
 
         AppDirectResultBean result = new AppDirectResultBean();
         result.setSuccess(true);

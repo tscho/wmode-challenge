@@ -20,6 +20,6 @@ import java.io.Serializable;
 public class AppDirectResultBean implements Serializable {
     boolean success;
     String message;
-    Long accountIdentifier;
+    String accountIdentifier;
     AppDirectErrorCode errorCode;
 }

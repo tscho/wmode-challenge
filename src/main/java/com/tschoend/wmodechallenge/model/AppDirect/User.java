@@ -1,9 +1,7 @@
 package com.tschoend.wmodechallenge.model.appdirect;
 
 import com.tschoend.wmodechallenge.model.appdirect.dto.UserBean;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -15,7 +13,8 @@ import java.util.UUID;
 /**
  * Created by tom on 2015-09-22.
  */
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

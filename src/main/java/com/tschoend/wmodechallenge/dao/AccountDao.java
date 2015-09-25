@@ -16,6 +16,10 @@ public class AccountDao extends AbstractDAO<Account> {
         return persist(account);
     }
 
+    public Account getAccount(long id) {
+        return get(id);
+    }
+
     public void delete(long id) {
         Account account = get(id);
         this.currentSession().delete(account.getClass().getName(), account);

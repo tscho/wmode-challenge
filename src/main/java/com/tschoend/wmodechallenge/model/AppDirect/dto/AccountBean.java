@@ -14,6 +14,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 public class AccountBean implements Serializable {
-    private long accountIdentifier;
+    private String accountIdentifier;
     private SubscriptionStatus status;
 }

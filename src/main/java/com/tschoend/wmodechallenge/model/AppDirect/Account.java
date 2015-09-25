@@ -6,6 +6,8 @@ import com.tschoend.wmodechallenge.model.appdirect.constants.SubscriptionStatus;
 import com.tschoend.wmodechallenge.model.appdirect.dto.EventBean;
 import com.tschoend.wmodechallenge.model.appdirect.dto.OrderBean;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +16,8 @@ import java.util.List;
 /**
  * Created by tom on 2015-09-22.
  */
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "accounts")
 public class Account {

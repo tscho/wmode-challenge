@@ -2,7 +2,11 @@ package com.tschoend.wmodechallenge.dao;
 
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import io.dropwizard.hibernate.AbstractDAO;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+
+import javax.persistence.TypedQuery;
+import java.util.UUID;
 
 /**
  * Created by tom on 2015-09-24.
@@ -14,5 +18,17 @@ public class UserDao extends AbstractDAO<User> {
 
     public User save(User user) {
         return persist(user);
+    }
+
+    public void delete(User user) {
+        currentSession().delete(user);
+    }
+
+    public User getByUUID(UUID uuid, long accountIdentifier) {
+        Query query = currentSession().createQuery("from User where uuid = :uuid and account.accountIdentifier = :identifier");
+        query.setParameter("uuid", uuid);
+        query.setParameter("identifier", accountIdentifier);
+
+        return list(query).get(0);
     }
 }
