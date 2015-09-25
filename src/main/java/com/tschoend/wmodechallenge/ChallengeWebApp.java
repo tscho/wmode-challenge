@@ -2,6 +2,8 @@ package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
+import com.tschoend.wmodechallenge.dao.AccountDao;
+import com.tschoend.wmodechallenge.dao.UserDao;
 import com.tschoend.wmodechallenge.model.appdirect.Account;
 import com.tschoend.wmodechallenge.model.appdirect.User;
 import com.tschoend.wmodechallenge.resources.appdirect.SubscriptionEventResource;
@@ -74,8 +76,11 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
                 challengeWebAppConfiguration.getAppDirectOauthKey(),
                 challengeWebAppConfiguration.getAppDirectOauthSecret());
 
+        AccountDao accountDao = new AccountDao(hibernate.getSessionFactory());
+        UserDao userDao = new UserDao(hibernate.getSessionFactory());
+
         environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
-        environment.jersey().register(new SubscriptionEventResource(appDirectClient));
+        environment.jersey().register(new SubscriptionEventResource(appDirectClient, accountDao, userDao));
 //        environment.jersey().disable();
     }
 }

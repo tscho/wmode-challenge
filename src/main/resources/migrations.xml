@@ -45,4 +45,34 @@
             </column>
         </createIndex>
     </changeSet>
+
+    <changeSet id="2" author="tscho">
+        <dropPrimaryKey tableName="users"/>
+        <addColumn tableName="users">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_identifier" type="bigint">
+                <constraints foreignKeyName="fk_user_account" referencedTableName="accounts" referencedColumnNames="account_identifier"/>
+            </column>
+        </addColumn>
+        <addUniqueConstraint tableName="users" columnNames="account_identifier, uuid"/>
+        <dropIndex tableName="accounts" indexName="fk_account_admin_user"/>
+        <dropColumn tableName="accounts" columnName="admin_uuid"/>
+    </changeSet>
+    <changeSet id="3" author="tscho">
+        <addColumn tableName="users">
+            <column name="role" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="4" author="tscho">
+        <dropColumn tableName="users" columnName="uuid"/>
+        <addColumn tableName="users">
+            <column name="uuid" type="bytea">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

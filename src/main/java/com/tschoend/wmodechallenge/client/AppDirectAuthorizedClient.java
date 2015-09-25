@@ -47,8 +47,6 @@ public class AppDirectAuthorizedClient {
             return null;
         }
 
-        log.info("Raw XML: ");
-
         return response.readEntity(EventBean.class);
     }
 }

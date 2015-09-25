@@ -1,6 +1,9 @@
 package com.tschoend.wmodechallenge.model.appdirect;
 
+import com.tschoend.wmodechallenge.model.appdirect.dto.UserBean;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -13,38 +16,56 @@ import java.util.UUID;
  * Created by tom on 2015-09-22.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements Principal {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
+    @SequenceGenerator(name = "users_id_seq",
+            sequenceName = "users_id_seq",
+            allocationSize = 1)
+    private Long id;
+
     private UUID uuid;
 
-    @NotNull
-    @NotBlank
     private String email;
 
-    @NotNull
-    @NotBlank
     @Column(name = "first_name")
     private String firstName;
 
     private String language;
 
-    @NotNull
-    @NotBlank
     @Column(name = "last_name")
     private String lastName;
 
-    @NotNull
     @Column(name = "open_id")
     private URL openId;
 
-    @NotNull
     private String role;
+
+    @ManyToOne
+    @JoinColumn(name = "account_identifier")
+    private Account account;
 
     @Override
     public String getName() {
-        return firstName + lastName;
+        return email;
+    }
+
+    public static User fromUserBean(UserBean userBean, String role) {
+        User user = new User(
+                null,
+                userBean.getUuid(),
+                userBean.getEmail(),
+                userBean.getFirstName(),
+                userBean.getLanguage(),
+                userBean.getLastName(),
+                userBean.getOpenId(),
+                role,
+                null);
+
+        return user;
     }
 }
