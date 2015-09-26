@@ -59,7 +59,7 @@ public class EventResource {
         log.info("Event type: " + event.getType().name());
 
         if(event.getFlag() == EventFlag.STATELESS) {
-            return new AppDirectResultBean(true, eventUrl, "0", null);
+            return new AppDirectResultBean(true, "Ping response", "0", null);
         }
 
         switch (event.getType()) {
@@ -104,6 +104,10 @@ public class EventResource {
 
         Account account = accountDao.getAccount(identifier);
 
+        if(account == null) {
+            return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
+        }
+
         account.setEditionCode(event.getPayload().getOrder().getEditionCode());
 
         accountDao.save(account);
@@ -120,7 +124,13 @@ public class EventResource {
         long identifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
         log.info("Identifier: " + identifier);
 
-        accountDao.delete(identifier);
+        Account account = accountDao.getAccount(identifier);
+
+        if(account == null) {
+            return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
+        }
+
+        accountDao.delete(account);
 
         return new AppDirectResultBean(true, "Cancelled subscription", Long.toString(identifier), null);
     }
@@ -142,10 +152,15 @@ public class EventResource {
             return new AppDirectResultBean(false, "User is already assigned", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.USER_ALREADY_EXISTS);
         }
 
-        newUser = User.fromUserBean(event.getPayload().getUser(), Role.USER);
-        userDao.save(newUser);
-
         Account account = accountDao.getAccount(accountIdentifier);
+
+        if(account == null) {
+            return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
+        }
+
+        newUser = User.fromUserBean(event.getPayload().getUser(), Role.USER);
+
+        userDao.save(newUser);
         account.addUser(newUser);
 
         return new AppDirectResultBean(true, "Assigned user " + newUser.getName(), event.getPayload().getAccount().getAccountIdentifier(), null);
@@ -163,6 +178,12 @@ public class EventResource {
 
         long accountIdentifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
         UUID uuid = event.getPayload().getUser().getUuid();
+
+        Account account = accountDao.getAccount(accountIdentifier);
+
+        if(account == null) {
+            return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
+        }
 
         User user = userDao.getByUUID(uuid, accountIdentifier);
 

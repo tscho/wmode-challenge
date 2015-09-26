@@ -26,8 +26,7 @@ public class AccountDao extends AbstractDAO<Account> {
         return this.currentSession().createCriteria( Account.class ).list();
     }
 
-    public void delete(long id) {
-        Account account = get(id);
+    public void delete(Account account) {
         this.currentSession().delete(account.getClass().getName(), account);
     }
 }
