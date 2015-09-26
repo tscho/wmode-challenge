@@ -1,8 +1,10 @@
 package com.tschoend.wmodechallenge.dao;
 
-import com.tschoend.wmodechallenge.model.appdirect.Account;
+import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.SessionFactory;
+
+import java.util.List;
 
 /**
  * Created by tom on 2015-09-24.
@@ -18,6 +20,10 @@ public class AccountDao extends AbstractDAO<Account> {
 
     public Account getAccount(long id) {
         return get(id);
+    }
+
+    public List<Account> findAll() {
+        return this.currentSession().createCriteria( Account.class ).list();
     }
 
     public void delete(long id) {

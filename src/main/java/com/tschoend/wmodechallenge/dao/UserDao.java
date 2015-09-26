@@ -1,11 +1,10 @@
 package com.tschoend.wmodechallenge.dao;
 
-import com.tschoend.wmodechallenge.model.appdirect.User;
+import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.TypedQuery;
 import java.util.UUID;
 
 /**

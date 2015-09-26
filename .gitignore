@@ -13,3 +13,5 @@ nbactions.xml
 *.iml
 config/*
 !config/example.yaml
+tsd.json
+typings/

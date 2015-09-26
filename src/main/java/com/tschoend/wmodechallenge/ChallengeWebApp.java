@@ -4,13 +4,15 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
-import com.tschoend.wmodechallenge.model.appdirect.Account;
-import com.tschoend.wmodechallenge.model.appdirect.User;
+import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
+import com.tschoend.wmodechallenge.model.appdirect.entity.User;
+import com.tschoend.wmodechallenge.resources.api.AccountResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Authenticator;
 import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Factory;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.auth.ChainedAuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
@@ -54,6 +56,7 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
         bootstrap.addBundle(migrations);
         bootstrap.addBundle(hibernate);
+        bootstrap.addBundle(new AssetsBundle("/assets", "/"));
     }
 
     @Override
@@ -81,6 +84,6 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
         environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
-//        environment.jersey().disable();
+        environment.jersey().register(new AccountResource(accountDao));
     }
 }

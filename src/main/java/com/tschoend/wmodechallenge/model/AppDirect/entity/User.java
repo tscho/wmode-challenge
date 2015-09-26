@@ -1,11 +1,10 @@
-package com.tschoend.wmodechallenge.model.appdirect;
+package com.tschoend.wmodechallenge.model.appdirect.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tschoend.wmodechallenge.model.appdirect.dto.UserBean;
 import lombok.*;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.net.URL;
 import java.security.Principal;
 import java.util.UUID;
@@ -27,6 +26,7 @@ public class User implements Principal {
             allocationSize = 1)
     private Long id;
 
+    @JsonIgnore
     private UUID uuid;
 
     private String email;
@@ -39,9 +39,11 @@ public class User implements Principal {
     @Column(name = "last_name")
     private String lastName;
 
+    @JsonIgnore
     @Column(name = "open_id")
     private URL openId;
 
+    @JsonIgnore
     private String role;
 
     @ManyToOne
@@ -51,6 +53,10 @@ public class User implements Principal {
     @Override
     public String getName() {
         return email;
+    }
+
+    public Long getAccount() {
+        return account.getAccountIdentifier();
     }
 
     public static User fromUserBean(UserBean userBean, String role) {

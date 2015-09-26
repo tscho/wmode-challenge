@@ -1,11 +1,8 @@
-package com.tschoend.wmodechallenge.model.appdirect;
+package com.tschoend.wmodechallenge.model.appdirect.entity;
 
-import com.google.common.collect.Lists;
 import com.tschoend.wmodechallenge.model.appdirect.constants.EditionCode;
 import com.tschoend.wmodechallenge.model.appdirect.constants.SubscriptionStatus;
-import com.tschoend.wmodechallenge.model.appdirect.dto.EventBean;
 import com.tschoend.wmodechallenge.model.appdirect.dto.OrderBean;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

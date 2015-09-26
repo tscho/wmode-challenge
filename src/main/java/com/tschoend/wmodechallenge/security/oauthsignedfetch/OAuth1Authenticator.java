@@ -1,7 +1,7 @@
 package com.tschoend.wmodechallenge.security.oauthsignedfetch;
 
 import com.google.common.base.Optional;
-import com.tschoend.wmodechallenge.model.appdirect.User;
+import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
