@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import oauth.signpost.OAuth;
 import oauth.signpost.http.HttpParameters;
 import oauth.signpost.signature.HmacSha1MessageSigner;
+import oauth.signpost.signature.SignatureBaseString;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.WebApplicationException;
@@ -53,7 +54,7 @@ public class OAuthSignedFetchFilter implements ContainerRequestFilter {
         }
 
         for (Map.Entry<String, List<String>> pair : query.entrySet()) {
-            params.put(pair.getKey(), new TreeSet<>(pair.getValue()));
+            params.put(pair.getKey(), new TreeSet<>(pair.getValue()), true);
         }
 
         return params;
@@ -69,8 +70,11 @@ public class OAuthSignedFetchFilter implements ContainerRequestFilter {
                     UriInfo uriInfo = request.getUriInfo();
 
                     String method = request.getMethod();
-                    String url = uriInfo.getBaseUri() + uriInfo.getPath();
+                    String url = uriInfo.getBaseUri().toString() + uriInfo.getPath();
                     MultivaluedMap<String, String> query = request.getUriInfo().getQueryParameters();
+
+                    log.debug("Method: " + method);
+                    log.debug("Url: " + url);
 
                     HttpParameters parameters = parseParameters(header, query);
 
@@ -78,6 +82,9 @@ public class OAuthSignedFetchFilter implements ContainerRequestFilter {
 
                     HmacSha1MessageSigner signer = new HmacSha1MessageSigner();
                     signer.setConsumerSecret(this.oauthSecret);
+
+                    String base = new SignatureBaseString(signedRequest, parameters).generate();
+                    log.debug("SBS: " + base);
 
                     String expectedSignature = signer.sign(signedRequest, parameters);
                     String requestSignature = OAuth.percentDecode(parameters.get(OAuth.OAUTH_SIGNATURE).first());
