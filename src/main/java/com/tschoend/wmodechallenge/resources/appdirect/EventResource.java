@@ -129,10 +129,18 @@ public class EventResource {
         if(event.getPayload().getUser() == null)
             return new AppDirectResultBean(false, "Missing user parameter", null, AppDirectErrorCode.INVALID_RESPONSE);
 
-        User newUser = User.fromUserBean(event.getPayload().getUser(), Role.USER);
+        Long accountIdentifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
+
+        User newUser = userDao.getByUUID(event.getPayload().getUser().getUuid(), accountIdentifier);
+
+        if(newUser != null) {
+            return new AppDirectResultBean(false, "User is already assigned", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.USER_ALREADY_EXISTS);
+        }
+
+        newUser = User.fromUserBean(event.getPayload().getUser(), Role.USER);
         userDao.save(newUser);
 
-        Account account = accountDao.getAccount(Long.parseLong(event.getPayload().getAccount().getAccountIdentifier()));
+        Account account = accountDao.getAccount(accountIdentifier);
         account.addUser(newUser);
 
         return new AppDirectResultBean(true, "Assigned user " + newUser.getName(), event.getPayload().getAccount().getAccountIdentifier(), null);
@@ -152,6 +160,10 @@ public class EventResource {
         UUID uuid = event.getPayload().getUser().getUuid();
 
         User user = userDao.getByUUID(uuid, accountIdentifier);
+
+        if(user == null) {
+            return new AppDirectResultBean(false, "User is not assigned", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.USER_NOT_FOUND);
+        }
         userDao.delete(user);
 
         return new AppDirectResultBean(true, "Unassigned user " + user.getName(), event.getPayload().getAccount().getAccountIdentifier(), null);
