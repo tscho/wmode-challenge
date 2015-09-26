@@ -12,8 +12,9 @@ appControllers.controller('AccountListController', ['$scope', '$http',
 					$scope.accounts = data;
 					$scope.loading = false;
 				}).
-				error(function(message) {
-					console.error(message);	
+				error(function(message, code) {
+					console.error("Error loading accounts: ", code);
+					$scope.accounts = null;
 					$scope.loading = false;
 				});	
 		}
@@ -36,8 +37,9 @@ appControllers.controller('AccountDetailController', ['$scope', '$routeParams', 
 					$scope.account = data;
 					$scope.loading = false;
 				})
-				.error(function(message) {
-					console.error(message);
+				.error(function(message, code) {
+					console.error("Error loading account details: ", code);
+					$scope.account = null;
 					$scope.loading = false;
 				});
 		}
