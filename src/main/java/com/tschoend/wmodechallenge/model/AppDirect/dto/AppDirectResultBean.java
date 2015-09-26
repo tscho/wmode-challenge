@@ -18,8 +18,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @JacksonXmlRootElement(localName = "result")
 public class AppDirectResultBean implements Serializable {
-    boolean success;
-    String message;
-    String accountIdentifier;
-    AppDirectErrorCode errorCode;
+    private Boolean success;
+    private String message;
+    private String accountIdentifier;
+    private AppDirectErrorCode errorCode;
 }

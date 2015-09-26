@@ -45,7 +45,12 @@ public class EventResource {
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
 
-        EventBean event = client.getEvent(eventUrl);
+        EventBean event;
+        try {
+            event = client.getEvent(eventUrl);
+        } catch (Exception e) {
+            return new AppDirectResultBean(false, e.getMessage(), null, AppDirectErrorCode.UNKNOWN_ERROR);
+        }
 
         if(event == null) {
             return new AppDirectResultBean(false, "Failed to fetch event details", null, AppDirectErrorCode.UNKNOWN_ERROR);
