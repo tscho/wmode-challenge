@@ -4,17 +4,15 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
+import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFeature;
+import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFilter;
 import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.resources.api.AccountResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
-import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Authenticator;
-import com.tschoend.wmodechallenge.security.oauthsignedfetch.OAuth1Factory;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.AuthFactory;
-import io.dropwizard.auth.ChainedAuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -61,15 +59,6 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
     @Override
     public void run(ChallengeWebAppConfiguration challengeWebAppConfiguration, Environment environment) throws Exception {
-        ChainedAuthFactory<User> chainedAuthFactory = new ChainedAuthFactory<>(
-                new OAuth1Factory<>(
-                        new OAuth1Authenticator(
-                                challengeWebAppConfiguration.getAppDirectOauthKey(),
-                                challengeWebAppConfiguration.getAppDirectOauthSecret()),
-                        User.class,
-                        null,
-                        true));
-
         Client client = new JerseyClientBuilder(environment)
                 .using(challengeWebAppConfiguration.getJerseyClientConfiguration())
                 .build(getName());
@@ -79,10 +68,17 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
                 challengeWebAppConfiguration.getAppDirectOauthKey(),
                 challengeWebAppConfiguration.getAppDirectOauthSecret());
 
+        OAuthSignedFetchFilter oAuthSignedFetchFilter = new OAuthSignedFetchFilter(
+                challengeWebAppConfiguration.getAppDirectOauthKey(),
+                challengeWebAppConfiguration.getAppDirectOauthSecret());
+
+        OAuthSignedFetchFeature oAuthSignedFetchFeature = new OAuthSignedFetchFeature(oAuthSignedFetchFilter);
+
         AccountDao accountDao = new AccountDao(hibernate.getSessionFactory());
         UserDao userDao = new UserDao(hibernate.getSessionFactory());
 
-        environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
+//        environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
+        environment.jersey().register(oAuthSignedFetchFeature);
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
         environment.jersey().register(new AccountResource(accountDao));
     }

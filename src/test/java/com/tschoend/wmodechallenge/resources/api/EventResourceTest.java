@@ -32,10 +32,7 @@ public class EventResourceTest {
 
         when(client.getEvent(anyString())).thenThrow(ParseException.class);
 
-        User testUser = new User();
-        testUser.setRole(Role.OAUTH_VERIFICATION);
-
-        AppDirectResultBean result = resource.createEvent(testUser, "nothing");
+        AppDirectResultBean result = resource.createEvent("nothing");
 
         assertFalse(result.getSuccess());
         assertEquals(AppDirectErrorCode.UNKNOWN_ERROR, result.getErrorCode());

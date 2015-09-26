@@ -3,6 +3,7 @@ package com.tschoend.wmodechallenge.resources.appdirect;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
+import com.tschoend.wmodechallenge.filters.OAuthSigned;
 import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.constants.AppDirectErrorCode;
@@ -38,13 +39,9 @@ public class EventResource {
 
     @GET
     @Produces(MediaType.APPLICATION_XML)
-    @RolesAllowed({Role.OAUTH_VERIFICATION})
+    @OAuthSigned
     @UnitOfWork
-    public AppDirectResultBean createEvent(@Auth User user, @QueryParam("url") String eventUrl) {
-        if (user == null) {
-            throw new WebApplicationException(Response.Status.UNAUTHORIZED);
-        }
-
+    public AppDirectResultBean createEvent(@QueryParam("url") String eventUrl) {
         EventBean event;
         try {
             event = client.getEvent(eventUrl);

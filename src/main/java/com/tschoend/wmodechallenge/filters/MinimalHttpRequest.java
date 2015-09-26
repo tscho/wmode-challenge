@@ -1,4 +1,4 @@
-package com.tschoend.wmodechallenge.security.oauthsignedfetch;
+package com.tschoend.wmodechallenge.filters;
 
 import oauth.signpost.http.HttpRequest;
 
