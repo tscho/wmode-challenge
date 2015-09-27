@@ -11,14 +11,11 @@ import com.tschoend.wmodechallenge.model.appdirect.constants.EventFlag;
 import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
 import com.tschoend.wmodechallenge.model.appdirect.dto.EventBean;
-import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 /**
@@ -80,7 +77,11 @@ public class EventResource {
 
         admin = userDao.save(admin);
 
-        Account account = Account.fromOrderBean(event.getPayload().getOrder());
+        Account account = Account.fromEventBean(
+                event.getPayload().getOrder(),
+                event.getMarketplace(),
+                event.getPayload().getCompany());
+
         account.addUser(admin);
 
         account = accountDao.save(account);

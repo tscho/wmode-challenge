@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.net.URI;
 import java.net.URL;
 import java.util.UUID;
 
@@ -32,7 +33,7 @@ public class UserBean implements Serializable {
     private String lastName;
 
     @NotNull
-    private URL openId;
+    private URI openId;
 
     @NotNull
     private UUID uuid;

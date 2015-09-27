@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -15,6 +16,6 @@ import java.net.URL;
 @Setter
 @NoArgsConstructor
 public class MarketPlaceBean implements Serializable {
-    private URL baseUrl;
+    private URI baseUrl;
     private String partner;
 }

@@ -1,9 +1,12 @@
 package com.tschoend.wmodechallenge.dao;
 
+import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import io.dropwizard.hibernate.AbstractDAO;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,15 +24,20 @@ public class UserSessionDao extends AbstractDAO<UserSession> {
     }
 
     public UserSession getByToken(UUID token) {
-        Query query = currentSession().createQuery("from UserSession where token = :token");
-        query.setParameter("token", token);
+        Criteria criteria = currentSession()
+                .createCriteria(UserSession.class)
+                .add(Restrictions.eq("uuid", token));
 
-        List<UserSession> matchedSessions = list(query);
+        List<UserSession> matchedSessions = list(criteria);
 
         if(matchedSessions.size() > 0) {
             return matchedSessions.get(0);
         } else {
             return null;
         }
+    }
+
+    public void delete(UserSession session) {
+        currentSession().delete(session);
     }
 }

@@ -2,11 +2,14 @@ package com.tschoend.wmodechallenge.model.appdirect.entity;
 
 import com.tschoend.wmodechallenge.model.appdirect.constants.EditionCode;
 import com.tschoend.wmodechallenge.model.appdirect.constants.SubscriptionStatus;
+import com.tschoend.wmodechallenge.model.appdirect.dto.CompanyBean;
+import com.tschoend.wmodechallenge.model.appdirect.dto.MarketPlaceBean;
 import com.tschoend.wmodechallenge.model.appdirect.dto.OrderBean;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +37,27 @@ public class Account {
     @OneToMany(mappedBy = "account", targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Column(name = "marketplace_name")
+    private String marketplaceName;
+
+    @Column(name = "marketplace_base_url")
+    private URI marketplaceBaseUrl;
+
     public void addUser(User user) {
         this.users.add(user);
         user.setAccount(this);
     }
 
-    public static Account fromOrderBean(OrderBean order) {
+    public static Account fromEventBean(OrderBean order, MarketPlaceBean marketPlace, CompanyBean company) {
         Account account = new Account();
         account.setEditionCode(order.getEditionCode());
         account.setStatus(SubscriptionStatus.ACTIVE);
+        account.setMarketplaceName(marketPlace.getPartner());
+        account.setMarketplaceBaseUrl(marketPlace.getBaseUrl());
+        account.setCompanyName(company.getName());
 
         return account;
     }

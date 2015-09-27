@@ -97,7 +97,6 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         ConsumerManager consumerManager = new ConsumerManager();
         consumerManager.setMaxNonceAge(challengeWebAppConfiguration.getOpenIdMaxNonceAge());
 
-//        environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
         environment.jersey().register(oAuthSignedFetchFeature);
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
         environment.jersey().register(new AccountResource(accountDao));

@@ -101,4 +101,17 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="7" author="tscho">
+        <addColumn tableName="accounts">
+            <column name="company_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="marketplace_name" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="marketplace_base_url" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

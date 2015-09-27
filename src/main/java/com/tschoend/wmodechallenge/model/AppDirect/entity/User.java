@@ -5,6 +5,7 @@ import com.tschoend.wmodechallenge.model.appdirect.dto.UserBean;
 import lombok.*;
 
 import javax.persistence.*;
+import java.net.URI;
 import java.net.URL;
 import java.security.Principal;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class User implements Principal {
 
     @JsonIgnore
     @Column(name = "open_id")
-    private URL openId;
+    private URI openId;
 
     @JsonIgnore
     private String role;
@@ -58,6 +59,9 @@ public class User implements Principal {
     public Long getAccount() {
         return account.getAccountIdentifier();
     }
+
+    @JsonIgnore
+    public Account getAccountEntity() { return account; }
 
     public static User fromUserBean(UserBean userBean, String role) {
         User user = new User(
