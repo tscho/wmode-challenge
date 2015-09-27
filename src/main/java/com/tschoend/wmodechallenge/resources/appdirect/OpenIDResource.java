@@ -182,11 +182,11 @@ public class OpenIDResource {
 
     private UUID extractUuid(AuthSuccess authSuccess) throws MessageException {
         FetchResponse response = (FetchResponse)authSuccess.getExtension(AxMessage.OPENID_NS_AX);
-        return getAttributeValue(
-                response,
-                "uuid",
-                null,
-                UUID.class);
+        return UUID.fromString(getAttributeValue(
+                                response,
+                                "uuid",
+                                null,
+                                String.class));
     }
 
     private String extractEmail(AuthSuccess authSuccess) throws MessageException {
