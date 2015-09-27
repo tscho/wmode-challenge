@@ -23,3 +23,5 @@ database:
 
 appDirectOauthKey: <key>
 appDirectOauthSecret: <secret>
+
+openIdMaxNonceAge: 600

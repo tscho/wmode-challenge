@@ -29,6 +29,10 @@ public class ChallengeWebAppConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private String appDirectOauthSecret;
+    @Valid
+    @NotNull
+    @JsonProperty
+    private int openIdMaxNonceAge;
 
     public DataSourceFactory getDataSourceFactory() {
         return database;
@@ -42,5 +46,9 @@ public class ChallengeWebAppConfiguration extends Configuration {
 
     public String getAppDirectOauthSecret() {
         return appDirectOauthSecret;
+    }
+    
+    public int getOpenIdMaxNonceAge() {
+        return openIdMaxNonceAge;
     }
 }
