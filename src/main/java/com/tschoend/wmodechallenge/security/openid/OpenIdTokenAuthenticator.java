@@ -21,6 +21,6 @@ public class OpenIdTokenAuthenticator implements Authenticator<OpenIdTokenCreden
     public Optional<UserSession> authenticate(OpenIdTokenCredentials openIdTokenCredentials) throws AuthenticationException {
         UserSession session = sessionDao.getByToken(openIdTokenCredentials.getToken());
 
-        return Optional.of(session);
+        return Optional.fromNullable(session);
     }
 }

@@ -72,6 +72,10 @@ public class OpenIdTokenAuthFactory<T> extends AuthFactory<OpenIdTokenCredential
                 OpenIdTokenCredentials credentials = new OpenIdTokenCredentials(token);
 
                 final Optional<T> result = authenticator().authenticate(credentials);
+
+                if(result.isPresent()) {
+                    return result.get();
+                }
             } catch (AuthenticationException e) {
                 log.warn("Error authenticating OpenID token", e);
             }
