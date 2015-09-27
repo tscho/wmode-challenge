@@ -196,6 +196,7 @@ public class OpenIDResource {
     }
 
     @GET
+    @UnitOfWork
     @Path("/logout")
     public Response logout(@Auth UserSession session, @Context HttpServletRequest request) {
         sessionDao.delete(session);
