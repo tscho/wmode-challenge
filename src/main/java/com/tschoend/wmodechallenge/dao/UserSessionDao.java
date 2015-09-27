@@ -26,7 +26,7 @@ public class UserSessionDao extends AbstractDAO<UserSession> {
     public UserSession getByToken(UUID token) {
         Criteria criteria = currentSession()
                 .createCriteria(UserSession.class)
-                .add(Restrictions.eq("uuid", token));
+                .add(Restrictions.eq("token", token));
 
         List<UserSession> matchedSessions = list(criteria);
 
