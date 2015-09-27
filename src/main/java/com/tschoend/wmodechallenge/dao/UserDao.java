@@ -37,4 +37,18 @@ public class UserDao extends AbstractDAO<User> {
             return null;
         }
     }
+
+    public User getByEmail(String email, Long accountIdentifier) {
+        Query query = currentSession().createQuery("from User where email = :email and account.accountIdentifier = :identifier");
+        query.setParameter("email", email);
+        query.setParameter("identifier", accountIdentifier);
+
+        List<User> matchedUsers = list(query);
+
+        if(matchedUsers.size() > 0) {
+            return list(query).get(0);
+        } else {
+            return null;
+        }
+    }
 }

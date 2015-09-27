@@ -1,6 +1,8 @@
 package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
@@ -10,6 +12,8 @@ import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.resources.api.AccountResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
+import com.tschoend.wmodechallenge.resources.appdirect.OpenIDResource;
+import com.tschoend.wmodechallenge.security.openid.OpenIdState;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -19,8 +23,11 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.openid4java.consumer.ConsumerManager;
 
 import javax.ws.rs.client.Client;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by tom on 2015-09-20.
@@ -77,9 +84,18 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         AccountDao accountDao = new AccountDao(hibernate.getSessionFactory());
         UserDao userDao = new UserDao(hibernate.getSessionFactory());
 
+        Cache<UUID, OpenIdState> openIdCache = CacheBuilder
+                .newBuilder()
+                .expireAfterWrite(2, TimeUnit.MINUTES)
+                .maximumSize(1000)
+                .build();
+
+        ConsumerManager consumerManager = new ConsumerManager();
+
 //        environment.jersey().register(AuthFactory.binder(chainedAuthFactory));
         environment.jersey().register(oAuthSignedFetchFeature);
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
         environment.jersey().register(new AccountResource(accountDao));
+        environment.jersey().register(new OpenIDResource(openIdCache, consumerManager, userDao));
     }
 }

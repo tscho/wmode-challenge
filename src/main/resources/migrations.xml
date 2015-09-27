@@ -87,4 +87,18 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="6" author="tscho">
+        <createTable tableName="user_sessions">
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_user_sessions_users"
+                             referencedTableName="users"
+                             referencedColumnNames="id"
+                             deleteCascade="true"/>
+            </column>
+            <column name="token" type="bytea">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>
