@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class Account {
     private String marketplaceName;
 
     @Column(name = "marketplace_base_url")
-    private URI marketplaceBaseUrl;
+    private URL marketplaceBaseUrl;
 
     public void addUser(User user) {
         this.users.add(user);

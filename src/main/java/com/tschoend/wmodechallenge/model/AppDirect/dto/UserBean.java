@@ -33,7 +33,7 @@ public class UserBean implements Serializable {
     private String lastName;
 
     @NotNull
-    private URI openId;
+    private URL openId;
 
     @NotNull
     private UUID uuid;

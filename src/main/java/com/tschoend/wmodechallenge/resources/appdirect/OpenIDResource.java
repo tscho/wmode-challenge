@@ -201,9 +201,9 @@ public class OpenIDResource {
         sessionDao.delete(session);
 
         try {
-            URI baseUri = session.getUser().getAccountEntity().getMarketplaceBaseUrl();
+            URL baseUri = session.getUser().getAccountEntity().getMarketplaceBaseUrl();
             URI redirectUri = new URI(
-                    baseUri.getScheme(),
+                    baseUri.getProtocol(),
                     null,
                     baseUri.getHost(),
                     baseUri.getPort(),

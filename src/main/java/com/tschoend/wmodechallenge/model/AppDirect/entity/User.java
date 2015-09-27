@@ -42,7 +42,7 @@ public class User implements Principal {
 
     @JsonIgnore
     @Column(name = "open_id")
-    private URI openId;
+    private URL openId;
 
     @JsonIgnore
     private String role;
@@ -61,6 +61,7 @@ public class User implements Principal {
     }
 
     @JsonIgnore
+    @Transient
     public Account getAccountEntity() { return account; }
 
     public static User fromUserBean(UserBean userBean, String role) {

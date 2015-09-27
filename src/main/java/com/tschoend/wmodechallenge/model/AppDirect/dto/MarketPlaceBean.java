@@ -16,6 +16,6 @@ import java.net.URL;
 @Setter
 @NoArgsConstructor
 public class MarketPlaceBean implements Serializable {
-    private URI baseUrl;
+    private URL baseUrl;
     private String partner;
 }
