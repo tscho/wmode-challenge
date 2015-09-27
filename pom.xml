@@ -75,7 +75,7 @@
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-client</artifactId>
-            <version>${dropwizard.version}</version>
+            <version>0.8.4</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.security</groupId>
@@ -91,7 +91,22 @@
             <groupId>org.openid4java</groupId>
             <artifactId>openid4java-consumer</artifactId>
             <version>0.9.6</version>
+            <type>pom</type>
+            <!-- Guice 2.0 has been superseded -->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.code.guice</groupId>
+                    <artifactId>guice</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+        <!-- Guice -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>3.0</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
