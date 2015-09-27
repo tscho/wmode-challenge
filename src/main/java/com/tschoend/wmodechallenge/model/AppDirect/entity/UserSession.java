@@ -1,16 +1,13 @@
 package com.tschoend.wmodechallenge.model.appdirect.entity;
 
-import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
@@ -24,7 +21,7 @@ public class UserSession {
     @Id
     private UUID token;
 
-    @OneToMany
+    @ManyToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
