@@ -11,6 +11,7 @@ import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFeature;
 import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFilter;
 import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
+import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import com.tschoend.wmodechallenge.resources.api.AccountResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import com.tschoend.wmodechallenge.resources.appdirect.OpenIDResource;
@@ -36,7 +37,8 @@ import java.util.concurrent.TimeUnit;
 public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
     private final HibernateBundle<ChallengeWebAppConfiguration> hibernate = new HibernateBundle<ChallengeWebAppConfiguration>(
             Account.class,
-            User.class) {
+            User.class,
+            UserSession.class) {
         @Override
         public DataSourceFactory getDataSourceFactory(ChallengeWebAppConfiguration configuration) {
             return configuration.getDataSourceFactory();
