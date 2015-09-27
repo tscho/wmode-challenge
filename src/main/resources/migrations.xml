@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
@@ -41,7 +41,8 @@
         </createTable>
         <createIndex tableName="accounts" indexName="fk_account_admin_user">
             <column name="admin_uuid">
-                <constraints foreignKeyName="fk_account_admin_user" referencedTableName="users" referencedColumnNames="uuid"/>
+                <constraints foreignKeyName="fk_account_admin_user" referencedTableName="users"
+                             referencedColumnNames="uuid"/>
             </column>
         </createIndex>
     </changeSet>
@@ -53,7 +54,8 @@
                 <constraints primaryKey="true"/>
             </column>
             <column name="account_identifier" type="bigint">
-                <constraints foreignKeyName="fk_user_account" referencedTableName="accounts" referencedColumnNames="account_identifier"/>
+                <constraints foreignKeyName="fk_user_account" referencedTableName="accounts"
+                             referencedColumnNames="account_identifier"/>
             </column>
         </addColumn>
         <addUniqueConstraint tableName="users" columnNames="account_identifier, uuid"/>
@@ -116,7 +118,7 @@
     </changeSet>
     <changeSet id="8" author="tscho">
         <addColumn tableName="user_sessions">
-            <column name="accessed_at" type="timestamp" />
+            <column name="accessed_at" type="timestamp"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>

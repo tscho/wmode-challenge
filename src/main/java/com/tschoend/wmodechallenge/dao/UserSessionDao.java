@@ -1,10 +1,8 @@
 package com.tschoend.wmodechallenge.dao;
 
-import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
@@ -30,7 +28,7 @@ public class UserSessionDao extends AbstractDAO<UserSession> {
 
         List<UserSession> matchedSessions = list(criteria);
 
-        if(matchedSessions.size() > 0) {
+        if (matchedSessions.size() > 0) {
             return matchedSessions.get(0);
         } else {
             return null;

@@ -4,19 +4,17 @@ import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
 import com.tschoend.wmodechallenge.model.appdirect.constants.AppDirectErrorCode;
-import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
-import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import org.junit.Test;
 
 import java.text.ParseException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by tom on 2015-09-26.

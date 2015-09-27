@@ -26,7 +26,6 @@ import org.openid4java.message.ax.FetchResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,10 +35,10 @@ import java.util.UUID;
 
 /**
  * Created by tom on 2015-09-26.
- *
+ * <p/>
  * Adapted from the examples at:
- *      http://gary-rowe.com/agilestack/2012/12/12/dropwizard-with-openid/
- *      https://github.com/jbufu/openid4java/blob/master/samples/consumer-servlet/src/main/java/org/openid4java/samples/consumerservlet/ConsumerServlet.java
+ * http://gary-rowe.com/agilestack/2012/12/12/dropwizard-with-openid/
+ * https://github.com/jbufu/openid4java/blob/master/samples/consumer-servlet/src/main/java/org/openid4java/samples/consumerservlet/ConsumerServlet.java
  */
 @Slf4j
 @Path("/appdirect")
@@ -117,7 +116,7 @@ public class OpenIDResource {
             @Context HttpServletRequest request,
             @QueryParam("token") String token) {
 
-        if(token == null) {
+        if (token == null) {
             log.warn("Authentication failed - no token");
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
@@ -126,7 +125,7 @@ public class OpenIDResource {
 
         OpenIdState state = openIdStateCache.getIfPresent(sessionToken);
 
-        if(state == null) {
+        if (state == null) {
             log.debug("Authentication failed due to no state matching session token {}", token);
             throw new WebApplicationException(Response.Status.UNAUTHORIZED);
         }
@@ -134,7 +133,7 @@ public class OpenIDResource {
         StringBuffer receivingUrl = request.getRequestURL();
         String queryString = request.getQueryString();
 
-        if(queryString != null && queryString.length() > 0) {
+        if (queryString != null && queryString.length() > 0) {
             receivingUrl.append("?").append(queryString);
         }
 
@@ -150,10 +149,10 @@ public class OpenIDResource {
 
             Identifier identifier = verificationResult.getVerifiedId();
 
-            if(identifier != null) {
-                AuthSuccess authSuccess = (AuthSuccess)verificationResult.getAuthResponse();
+            if (identifier != null) {
+                AuthSuccess authSuccess = (AuthSuccess) verificationResult.getAuthResponse();
 
-                if(!authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
+                if (!authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
                     log.warn("OpenID response did not contain user information");
                     throw new WebApplicationException(Response.Status.UNAUTHORIZED);
                 }
@@ -163,14 +162,14 @@ public class OpenIDResource {
                 UUID userUuid = extractUuid(authSuccess);
                 String userEmail = extractEmail(authSuccess);
 
-                if(userUuid != null) {
-                   user = userDao.getByUUID(userUuid, state.getAccountIdentifier());
-                } else if (userEmail != null){
+                if (userUuid != null) {
+                    user = userDao.getByUUID(userUuid, state.getAccountIdentifier());
+                } else if (userEmail != null) {
                     log.info("Falling back to email");
                     user = userDao.getByEmail(userEmail, state.getAccountIdentifier());
                 }
 
-                if(user == null) {
+                if (user == null) {
                     log.warn("Could not find user for OpenID response");
                     throw new WebApplicationException(Response.Status.UNAUTHORIZED);
                 }
@@ -224,7 +223,7 @@ public class OpenIDResource {
     }
 
     private UUID extractUuid(AuthSuccess authSuccess) throws MessageException {
-        FetchResponse response = (FetchResponse)authSuccess.getExtension(AxMessage.OPENID_NS_AX);
+        FetchResponse response = (FetchResponse) authSuccess.getExtension(AxMessage.OPENID_NS_AX);
         return UUID.fromString(getAttributeValue(
                 response,
                 "uuid",
@@ -233,7 +232,7 @@ public class OpenIDResource {
     }
 
     private String extractEmail(AuthSuccess authSuccess) throws MessageException {
-        FetchResponse response = (FetchResponse)authSuccess.getExtension(AxMessage.OPENID_NS_AX);
+        FetchResponse response = (FetchResponse) authSuccess.getExtension(AxMessage.OPENID_NS_AX);
         return getAttributeValue(
                 response,
                 "email",
@@ -247,7 +246,7 @@ public class OpenIDResource {
             T defaultVal,
             Class<T> klass) {
         List attrList = response.getAttributeValues(attribute);
-        if(attrList != null && attrList.size() > 0) {
+        if (attrList != null && attrList.size() > 0) {
             return (T) attrList.get(0);
         }
 

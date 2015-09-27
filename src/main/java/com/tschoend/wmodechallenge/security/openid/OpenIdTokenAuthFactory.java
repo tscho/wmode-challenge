@@ -1,7 +1,6 @@
 package com.tschoend.wmodechallenge.security.openid;
 
 import com.google.common.base.Optional;
-import com.tschoend.wmodechallenge.dao.UserSessionDao;
 import io.dropwizard.auth.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,13 +66,13 @@ public class OpenIdTokenAuthFactory<T> extends AuthFactory<OpenIdTokenCredential
     public T provide() {
         UUID token = SessionUtil.getTokenForRequest(this.request);
 
-        if(token != null) {
+        if (token != null) {
             try {
                 OpenIdTokenCredentials credentials = new OpenIdTokenCredentials(token);
 
                 final Optional<T> result = authenticator().authenticate(credentials);
 
-                if(result.isPresent()) {
+                if (result.isPresent()) {
                     return result.get();
                 }
             } catch (AuthenticationException e) {
@@ -81,7 +80,7 @@ public class OpenIdTokenAuthFactory<T> extends AuthFactory<OpenIdTokenCredential
             }
         }
 
-        if(required) {
+        if (required) {
             throw new WebApplicationException("Failed to authorize", Response.Status.UNAUTHORIZED);
         }
 

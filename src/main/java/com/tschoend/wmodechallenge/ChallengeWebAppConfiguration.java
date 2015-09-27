@@ -41,7 +41,9 @@ public class ChallengeWebAppConfiguration extends Configuration {
         return database;
     }
 
-    public JerseyClientConfiguration getJerseyClientConfiguration() { return httpClient; }
+    public JerseyClientConfiguration getJerseyClientConfiguration() {
+        return httpClient;
+    }
 
     public String getAppDirectOauthKey() {
         return appDirectOauthKey;
@@ -50,7 +52,7 @@ public class ChallengeWebAppConfiguration extends Configuration {
     public String getAppDirectOauthSecret() {
         return appDirectOauthSecret;
     }
-    
+
     public int getOpenIdMaxNonceAge() {
         return openIdMaxNonceAge;
     }

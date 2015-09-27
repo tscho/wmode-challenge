@@ -15,7 +15,7 @@ public class SessionUtil {
     public static final String TOKEN_COOKIE = "auth_token";
 
     public static NewCookie swapCookie(User user, UserSession session) {
-        if(user != null) {
+        if (user != null) {
             return new NewCookie(
                     TOKEN_COOKIE,
                     session.getToken().toString(),
@@ -39,7 +39,7 @@ public class SessionUtil {
     public static UUID getTokenForRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
-        if(cookies != null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(TOKEN_COOKIE)) {
                     return UUID.fromString(cookie.getValue());

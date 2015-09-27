@@ -23,7 +23,7 @@ public class AccountDao extends AbstractDAO<Account> {
     }
 
     public List<Account> findAll() {
-        return this.currentSession().createCriteria( Account.class ).list();
+        return this.currentSession().createCriteria(Account.class).list();
     }
 
     public void delete(Account account) {

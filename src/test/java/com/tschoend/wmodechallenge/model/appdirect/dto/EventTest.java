@@ -20,8 +20,8 @@ public class EventTest extends TestCase {
     @Before
     @Override
     public void setUp() {
-       mapper = new XmlMapper();
-       mapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        mapper = new XmlMapper();
+        mapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
     }
 
     @Test

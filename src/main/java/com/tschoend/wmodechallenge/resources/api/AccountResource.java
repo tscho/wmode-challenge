@@ -2,7 +2,6 @@ package com.tschoend.wmodechallenge.resources.api;
 
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
-import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import io.dropwizard.hibernate.UnitOfWork;
 import org.hibernate.Hibernate;
 
@@ -35,7 +34,7 @@ public class AccountResource {
     public Account getAccount(@PathParam("id") long id) {
         Account account = accountDao.getAccount(id);
 
-        if(account != null) {
+        if (account != null) {
             Hibernate.initialize(account.getUsers());
             return account;
         } else {

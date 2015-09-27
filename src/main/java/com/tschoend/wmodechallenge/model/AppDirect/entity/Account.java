@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +46,6 @@ public class Account {
     @Column(name = "marketplace_base_url")
     private URL marketplaceBaseUrl;
 
-    public void addUser(User user) {
-        this.users.add(user);
-        user.setAccount(this);
-    }
-
     public static Account fromEventBean(OrderBean order, MarketPlaceBean marketPlace, CompanyBean company) {
         Account account = new Account();
         account.setEditionCode(order.getEditionCode());
@@ -61,5 +55,10 @@ public class Account {
         account.setCompanyName(company.getName());
 
         return account;
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
+        user.setAccount(this);
     }
 }

@@ -4,17 +4,20 @@ import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
 import com.tschoend.wmodechallenge.filters.OAuthSigned;
-import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
-import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.constants.AppDirectErrorCode;
 import com.tschoend.wmodechallenge.model.appdirect.constants.EventFlag;
 import com.tschoend.wmodechallenge.model.appdirect.constants.Role;
 import com.tschoend.wmodechallenge.model.appdirect.dto.AppDirectResultBean;
 import com.tschoend.wmodechallenge.model.appdirect.dto.EventBean;
+import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
+import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import io.dropwizard.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
 
@@ -46,13 +49,13 @@ public class EventResource {
             return new AppDirectResultBean(false, e.getMessage(), null, AppDirectErrorCode.UNKNOWN_ERROR);
         }
 
-        if(event == null) {
+        if (event == null) {
             return new AppDirectResultBean(false, "Failed to fetch event details", null, AppDirectErrorCode.UNKNOWN_ERROR);
         }
 
         log.info("Event type: " + event.getType().name());
 
-        if(event.getFlag() == EventFlag.STATELESS) {
+        if (event.getFlag() == EventFlag.STATELESS) {
             return new AppDirectResultBean(true, "Ping response", "0", null);
         }
 
@@ -90,19 +93,19 @@ public class EventResource {
     }
 
     private AppDirectResultBean handleSubscriptionChange(EventBean event) {
-        if(event.getPayload() == null
+        if (event.getPayload() == null
                 || event.getPayload().getAccount() == null
                 || event.getPayload().getAccount().getAccountIdentifier() == null)
             return new AppDirectResultBean(false, "Missing account parameters", null, AppDirectErrorCode.INVALID_RESPONSE);
 
-        if(event.getPayload().getOrder() == null)
+        if (event.getPayload().getOrder() == null)
             return new AppDirectResultBean(false, "Missing account parameters", null, AppDirectErrorCode.INVALID_RESPONSE);
 
         long identifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
 
         Account account = accountDao.getAccount(identifier);
 
-        if(account == null) {
+        if (account == null) {
             return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
         }
 
@@ -114,7 +117,7 @@ public class EventResource {
     }
 
     public AppDirectResultBean handleSubscriptionCancel(EventBean event) {
-        if(event.getPayload() == null
+        if (event.getPayload() == null
                 || event.getPayload().getAccount() == null
                 || event.getPayload().getAccount().getAccountIdentifier() == null)
             return new AppDirectResultBean(false, "Missing account parameters", null, AppDirectErrorCode.INVALID_RESPONSE);
@@ -124,7 +127,7 @@ public class EventResource {
 
         Account account = accountDao.getAccount(identifier);
 
-        if(account == null) {
+        if (account == null) {
             return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
         }
 
@@ -134,25 +137,25 @@ public class EventResource {
     }
 
     public AppDirectResultBean handleAssignUser(EventBean event) {
-        if(event.getPayload() == null
+        if (event.getPayload() == null
                 || event.getPayload().getAccount() == null
                 || event.getPayload().getAccount().getAccountIdentifier() == null)
             return new AppDirectResultBean(false, "Missing account parameters", null, AppDirectErrorCode.INVALID_RESPONSE);
 
-        if(event.getPayload().getUser() == null)
+        if (event.getPayload().getUser() == null)
             return new AppDirectResultBean(false, "Missing user parameter", null, AppDirectErrorCode.INVALID_RESPONSE);
 
         Long accountIdentifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
 
         User newUser = userDao.getByUUID(event.getPayload().getUser().getUuid(), accountIdentifier);
 
-        if(newUser != null) {
+        if (newUser != null) {
             return new AppDirectResultBean(false, "User is already assigned", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.USER_ALREADY_EXISTS);
         }
 
         Account account = accountDao.getAccount(accountIdentifier);
 
-        if(account == null) {
+        if (account == null) {
             return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
         }
 
@@ -166,12 +169,12 @@ public class EventResource {
 
     @UnitOfWork
     public AppDirectResultBean handleUnassignUser(EventBean event) {
-        if(event.getPayload() == null
+        if (event.getPayload() == null
                 || event.getPayload().getAccount() == null
                 || event.getPayload().getAccount().getAccountIdentifier() == null)
             return new AppDirectResultBean(false, "Missing account parameters", null, AppDirectErrorCode.INVALID_RESPONSE);
 
-        if(event.getPayload().getUser() == null)
+        if (event.getPayload().getUser() == null)
             return new AppDirectResultBean(false, "Missing user parameter", null, AppDirectErrorCode.INVALID_RESPONSE);
 
         long accountIdentifier = Long.parseLong(event.getPayload().getAccount().getAccountIdentifier());
@@ -179,13 +182,13 @@ public class EventResource {
 
         Account account = accountDao.getAccount(accountIdentifier);
 
-        if(account == null) {
+        if (account == null) {
             return new AppDirectResultBean(false, "Account not found", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.ACCOUNT_NOT_FOUND);
         }
 
         User user = userDao.getByUUID(uuid, accountIdentifier);
 
-        if(user == null) {
+        if (user == null) {
             return new AppDirectResultBean(false, "User is not assigned", event.getPayload().getAccount().getAccountIdentifier(), AppDirectErrorCode.USER_NOT_FOUND);
         }
         userDao.delete(user);

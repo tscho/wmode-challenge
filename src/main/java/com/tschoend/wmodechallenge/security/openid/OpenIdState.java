@@ -1,7 +1,6 @@
 package com.tschoend.wmodechallenge.security.openid;
 
 import lombok.Data;
-import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.discovery.DiscoveryInformation;
 
 /**

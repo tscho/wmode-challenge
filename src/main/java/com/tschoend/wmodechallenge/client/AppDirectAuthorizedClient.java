@@ -2,11 +2,9 @@ package com.tschoend.wmodechallenge.client;
 
 import com.tschoend.wmodechallenge.model.appdirect.dto.EventBean;
 import lombok.extern.slf4j.Slf4j;
-import org.glassfish.jersey.client.oauth1.AccessToken;
 import org.glassfish.jersey.client.oauth1.ConsumerCredentials;
 import org.glassfish.jersey.client.oauth1.OAuth1ClientSupport;
 import org.glassfish.jersey.filter.LoggingFilter;
-import org.slf4j.Logger;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -42,7 +40,7 @@ public class AppDirectAuthorizedClient {
                 .request(MediaType.APPLICATION_XML_TYPE)
                 .get();
 
-        if(response.getStatus() != 200) {
+        if (response.getStatus() != 200) {
             log.warn("Received status code " + response.getStatus());
             return null;
         }

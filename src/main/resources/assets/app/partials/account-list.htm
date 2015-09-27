@@ -1,27 +1,27 @@
 <h1>Account List</h1>
 <button type="button" class="btn btn-default" aria-label="Refresh" ng-click="load()" ng-disabled="loading">
-	<span class="glyphicon glyphicon-refresh" aria-hidden="false" ng-show="!loading"></span>
-	<span class="glyphicon glyphicon-cloud-download" aria-hidden="false" ng-show="loading"></span>
+    <span class="glyphicon glyphicon-refresh" aria-hidden="false" ng-show="!loading"></span>
+    <span class="glyphicon glyphicon-cloud-download" aria-hidden="false" ng-show="loading"></span>
 </button>
 <table class="table table-striped table-bordered">
-	<thead>
-		<tr>
-			<th>Account ID</th>
-			<th>Subscription</th>
-			<th>Status</th>
-			<th>Company</th>
-			<th>Marketplace</th>
-		</tr>
-	</thead>
-	<tr ng-repeat="account in accounts">
-		<td>
-			<a href="#/account/{{account.accountIdentifier}}">
-				{{account.accountIdentifier}}
-			</a>
-		</td>
-		<td>{{account.editionCode}}</td>
-		<td>{{account.status}}</td>
-		<td>{{account.companyName}}</td>
-		<td>{{account.marketplaceName}}</td>
-	</tr>
+    <thead>
+    <tr>
+        <th>Account ID</th>
+        <th>Subscription</th>
+        <th>Status</th>
+        <th>Company</th>
+        <th>Marketplace</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="account in accounts">
+        <td>
+            <a href="#/account/{{account.accountIdentifier}}">
+                {{account.accountIdentifier}}
+            </a>
+        </td>
+        <td>{{account.editionCode}}</td>
+        <td>{{account.status}}</td>
+        <td>{{account.companyName}}</td>
+        <td>{{account.marketplaceName}}</td>
+    </tr>
 </table>

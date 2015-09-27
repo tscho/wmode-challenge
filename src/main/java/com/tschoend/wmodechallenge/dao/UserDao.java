@@ -31,7 +31,7 @@ public class UserDao extends AbstractDAO<User> {
 
         List<User> matchedUsers = list(query);
 
-        if(matchedUsers.size() > 0) {
+        if (matchedUsers.size() > 0) {
             return list(query).get(0);
         } else {
             return null;
@@ -45,7 +45,7 @@ public class UserDao extends AbstractDAO<User> {
 
         List<User> matchedUsers = list(query);
 
-        if(matchedUsers.size() > 0) {
+        if (matchedUsers.size() > 0) {
             return list(query).get(0);
         } else {
             return null;

@@ -16,7 +16,7 @@ public class OAuthSignedFetchFeature implements DynamicFeature {
 
     @Override
     public void configure(ResourceInfo resourceInfo, FeatureContext featureContext) {
-        if(resourceInfo.getResourceMethod().getAnnotation(OAuthSigned.class) != null) {
+        if (resourceInfo.getResourceMethod().getAnnotation(OAuthSigned.class) != null) {
             featureContext.register(filter);
         }
     }

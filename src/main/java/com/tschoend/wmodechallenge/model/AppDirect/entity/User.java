@@ -2,10 +2,12 @@ package com.tschoend.wmodechallenge.model.appdirect.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tschoend.wmodechallenge.model.appdirect.dto.UserBean;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.net.URI;
 import java.net.URL;
 import java.security.Principal;
 import java.util.UUID;
@@ -51,19 +53,6 @@ public class User implements Principal {
     @JoinColumn(name = "account_identifier")
     private Account account;
 
-    @Override
-    public String getName() {
-        return email;
-    }
-
-    public Long getAccount() {
-        return account.getAccountIdentifier();
-    }
-
-    @JsonIgnore
-    @Transient
-    public Account getAccountEntity() { return account; }
-
     public static User fromUserBean(UserBean userBean, String role) {
         User user = new User(
                 null,
@@ -77,5 +66,20 @@ public class User implements Principal {
                 null);
 
         return user;
+    }
+
+    @Override
+    public String getName() {
+        return email;
+    }
+
+    public Long getAccount() {
+        return account.getAccountIdentifier();
+    }
+
+    @JsonIgnore
+    @Transient
+    public Account getAccountEntity() {
+        return account;
     }
 }
