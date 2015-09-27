@@ -53,7 +53,7 @@ public class OpenIDResource {
     @Path("/login")
     public Response authenticationRequest(@Context HttpServletRequest request,
                                           @QueryParam("openid") String openid,
-                                          @QueryParam("accountIdentifier") String accountIdentifier) {
+                                          @QueryParam("account") String accountIdentifier) {
 
         UUID sessionToken = UUID.randomUUID();
 
