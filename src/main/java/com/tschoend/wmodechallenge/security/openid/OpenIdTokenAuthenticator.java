@@ -29,7 +29,6 @@ public class OpenIdTokenAuthenticator implements Authenticator<OpenIdTokenCreden
         if(session.getAccessedAt().plusMinutes(expiryPeridodMinutes).isBefore(DateTime.now())) {
             log.info("Expiring token {}", session.getToken());
             sessionDao.delete(session);
-            return Optional.absent();
         } else {
             log.debug("Updating token access time {}", session.getToken());
             session.setAccessedAt(DateTime.now());
