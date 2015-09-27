@@ -39,9 +39,11 @@ public class SessionUtil {
     public static UUID getTokenForRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals(TOKEN_COOKIE)) {
-                return UUID.fromString(cookie.getValue());
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(TOKEN_COOKIE)) {
+                    return UUID.fromString(cookie.getValue());
+                }
             }
         }
 
