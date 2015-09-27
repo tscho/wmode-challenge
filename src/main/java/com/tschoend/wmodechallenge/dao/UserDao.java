@@ -5,6 +5,7 @@ import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -28,6 +29,12 @@ public class UserDao extends AbstractDAO<User> {
         query.setParameter("uuid", uuid);
         query.setParameter("identifier", accountIdentifier);
 
-        return list(query).get(0);
+        List<User> matchedUsers = list(query);
+
+        if(matchedUsers.size() > 0) {
+            return list(query).get(0);
+        } else {
+            return null;
+        }
     }
 }
