@@ -25,14 +25,16 @@ public class OpenIdTokenAuthenticator implements Authenticator<OpenIdTokenCreden
     public Optional<UserSession> authenticate(OpenIdTokenCredentials openIdTokenCredentials) throws AuthenticationException {
         UserSession session = sessionDao.getByToken(openIdTokenCredentials.getToken());
 
-        //Invalidate old session
-        if(session.getAccessedAt().plusMinutes(expiryPeridodMinutes).isBefore(DateTime.now())) {
-            log.info("Expiring token {}", session.getToken());
-            sessionDao.delete(session);
-        } else {
-            log.debug("Updating token access time {}", session.getToken());
-            session.setAccessedAt(DateTime.now());
-            sessionDao.save(session);
+        if(session != null) {
+            //Invalidate old session
+            if (session.getAccessedAt().plusMinutes(expiryPeridodMinutes).isBefore(DateTime.now())) {
+                log.info("Expiring token {}", session.getToken());
+                sessionDao.delete(session);
+            } else {
+                log.debug("Updating token access time {}", session.getToken());
+                session.setAccessedAt(DateTime.now());
+                sessionDao.save(session);
+            }
         }
 
         return Optional.fromNullable(session);

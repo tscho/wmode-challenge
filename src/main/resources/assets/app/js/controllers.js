@@ -46,3 +46,19 @@ appControllers.controller('AccountDetailController', ['$scope', '$routeParams', 
 		
 		$scope.load();
 	}]);
+	
+appControllers.controller('UserController', ['$scope', '$http', 
+	function($scope, $http) {
+		$scope.loggedIn = false;
+		
+		$http.get('/api/users')
+			.success(function(data) {
+				$scope.user = data;
+				$scope.loggedIn = true;
+			})
+			.error(function(message, code) {
+				console.error("Error loading user: ", code);
+				$scope.user = null;
+				$scope.loggedIn = false;
+			});
+	}])

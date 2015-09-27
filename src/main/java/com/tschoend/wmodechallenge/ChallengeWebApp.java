@@ -13,6 +13,7 @@ import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import com.tschoend.wmodechallenge.resources.api.AccountResource;
+import com.tschoend.wmodechallenge.resources.api.UserResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import com.tschoend.wmodechallenge.resources.appdirect.OpenIDResource;
 import com.tschoend.wmodechallenge.security.openid.OpenIdState;
@@ -111,5 +112,6 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
         environment.jersey().register(new AccountResource(accountDao));
         environment.jersey().register(new OpenIDResource(openIdCache, consumerManager, userDao, sessionDao));
+        environment.jersey().register(new UserResource());
     }
 }
