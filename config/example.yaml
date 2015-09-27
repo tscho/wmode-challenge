@@ -25,3 +25,5 @@ appDirectOauthKey: <key>
 appDirectOauthSecret: <secret>
 
 openIdMaxNonceAge: 600
+
+sessionExpiryPeriodMinutes: 1000

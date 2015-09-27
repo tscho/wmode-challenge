@@ -2,7 +2,6 @@ package com.tschoend.wmodechallenge;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import io.dropwizard.client.HttpClientConfiguration;
 import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.db.DataSourceFactory;
 
@@ -33,6 +32,10 @@ public class ChallengeWebAppConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private int openIdMaxNonceAge;
+    @Valid
+    @NotNull
+    @JsonProperty
+    private int sessionExpiryPeriodMinutes;
 
     public DataSourceFactory getDataSourceFactory() {
         return database;
@@ -50,5 +53,9 @@ public class ChallengeWebAppConfiguration extends Configuration {
     
     public int getOpenIdMaxNonceAge() {
         return openIdMaxNonceAge;
+    }
+
+    public int getSessionExpiryPeriodMinutes() {
+        return sessionExpiryPeriodMinutes;
     }
 }

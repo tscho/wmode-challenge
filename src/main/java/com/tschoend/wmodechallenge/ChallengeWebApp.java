@@ -103,7 +103,7 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         environment.jersey().register(
                 AuthFactory.binder(
                         new OpenIdTokenAuthFactory<>(
-                                new OpenIdTokenAuthenticator(sessionDao),
+                                new OpenIdTokenAuthenticator(sessionDao, challengeWebAppConfiguration.getSessionExpiryPeriodMinutes()),
                                 null,
                                 UserSession.class)));
 

@@ -114,4 +114,9 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="8" author="tscho">
+        <addColumn tableName="user_sessions">
+            <column name="accessed_at" type="timestamp" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
