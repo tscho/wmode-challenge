@@ -6,6 +6,7 @@ import com.tschoend.wmodechallenge.dao.UserDao;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import com.tschoend.wmodechallenge.security.openid.OpenIdState;
+import io.dropwizard.hibernate.UnitOfWork;
 import lombok.extern.slf4j.Slf4j;
 import org.openid4java.OpenIDException;
 import org.openid4java.consumer.ConsumerManager;
@@ -103,6 +104,7 @@ public class OpenIDResource {
 
     @GET
     @Path("/verify")
+    @UnitOfWork
     public Response authenticationVerify(
             @Context HttpServletRequest request,
             @QueryParam("token") String token) {
