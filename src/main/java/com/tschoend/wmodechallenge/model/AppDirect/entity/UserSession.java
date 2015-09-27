@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.UUID;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by tom on 2015-09-26.
@@ -18,6 +21,7 @@ import java.util.UUID;
 @Setter
 @Table(name = "user_sessions")
 public class UserSession {
+    @Id
     private UUID token;
 
     @OneToMany
