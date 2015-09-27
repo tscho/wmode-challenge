@@ -6,6 +6,7 @@ import com.google.common.cache.CacheBuilder;
 import com.tschoend.wmodechallenge.client.AppDirectAuthorizedClient;
 import com.tschoend.wmodechallenge.dao.AccountDao;
 import com.tschoend.wmodechallenge.dao.UserDao;
+import com.tschoend.wmodechallenge.dao.UserSessionDao;
 import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFeature;
 import com.tschoend.wmodechallenge.filters.OAuthSignedFetchFilter;
 import com.tschoend.wmodechallenge.model.appdirect.entity.Account;
@@ -83,6 +84,7 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
         AccountDao accountDao = new AccountDao(hibernate.getSessionFactory());
         UserDao userDao = new UserDao(hibernate.getSessionFactory());
+        UserSessionDao sessionDao = new UserSessionDao(hibernate.getSessionFactory());
 
         Cache<UUID, OpenIdState> openIdCache = CacheBuilder
                 .newBuilder()
@@ -97,6 +99,6 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
         environment.jersey().register(oAuthSignedFetchFeature);
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
         environment.jersey().register(new AccountResource(accountDao));
-        environment.jersey().register(new OpenIDResource(openIdCache, consumerManager, userDao));
+        environment.jersey().register(new OpenIDResource(openIdCache, consumerManager, userDao, sessionDao));
     }
 }

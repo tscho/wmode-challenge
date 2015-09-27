@@ -3,6 +3,7 @@ package com.tschoend.wmodechallenge.resources.appdirect;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.tschoend.wmodechallenge.dao.UserDao;
+import com.tschoend.wmodechallenge.dao.UserSessionDao;
 import com.tschoend.wmodechallenge.model.appdirect.entity.User;
 import com.tschoend.wmodechallenge.model.appdirect.entity.UserSession;
 import com.tschoend.wmodechallenge.security.openid.OpenIdState;
@@ -42,11 +43,13 @@ public class OpenIDResource {
     private final Cache<UUID, OpenIdState> openIdDiscoveryCache;
     private final ConsumerManager consumerManager;
     private final UserDao userDao;
+    private final UserSessionDao sessionDao;
 
-    public OpenIDResource(Cache<UUID, OpenIdState> openIdDiscoveryCache, ConsumerManager consumerManager, UserDao userDao) {
+    public OpenIDResource(Cache<UUID, OpenIdState> openIdDiscoveryCache, ConsumerManager consumerManager, UserDao userDao, UserSessionDao sessionDao) {
         this.openIdDiscoveryCache = openIdDiscoveryCache;
         this.consumerManager = consumerManager;
         this.userDao = userDao;
+        this.sessionDao = sessionDao;
     }
 
 
@@ -168,6 +171,7 @@ public class OpenIDResource {
                 }
 
                 UserSession session = UserSession.create(user);
+                sessionDao.save(session);
 
                 return Response
                         .seeOther(URI.create("/"))
