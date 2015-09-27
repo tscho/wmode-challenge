@@ -16,9 +16,12 @@ import com.tschoend.wmodechallenge.resources.api.AccountResource;
 import com.tschoend.wmodechallenge.resources.appdirect.EventResource;
 import com.tschoend.wmodechallenge.resources.appdirect.OpenIDResource;
 import com.tschoend.wmodechallenge.security.openid.OpenIdState;
+import com.tschoend.wmodechallenge.security.openid.OpenIdTokenAuthFactory;
+import com.tschoend.wmodechallenge.security.openid.OpenIdTokenAuthenticator;
 import com.yunspace.dropwizard.xml.XmlBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthFactory;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
@@ -96,6 +99,13 @@ public class ChallengeWebApp extends Application<ChallengeWebAppConfiguration> {
 
         ConsumerManager consumerManager = new ConsumerManager();
         consumerManager.setMaxNonceAge(challengeWebAppConfiguration.getOpenIdMaxNonceAge());
+
+        environment.jersey().register(
+                AuthFactory.binder(
+                        new OpenIdTokenAuthFactory<>(
+                                new OpenIdTokenAuthenticator(sessionDao),
+                                null,
+                                UserSession.class)));
 
         environment.jersey().register(oAuthSignedFetchFeature);
         environment.jersey().register(new EventResource(appDirectClient, accountDao, userDao));
