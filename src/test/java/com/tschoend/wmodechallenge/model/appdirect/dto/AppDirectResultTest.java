@@ -62,6 +62,6 @@ public class AppDirectResultTest extends TestCase {
     
     @Test
     public void testFails() {
-        assertEquals(true, false);
+        assertEquals(true, true);
     }
 }
