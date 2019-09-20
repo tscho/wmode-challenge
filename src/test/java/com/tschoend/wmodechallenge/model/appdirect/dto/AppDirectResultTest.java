@@ -59,4 +59,9 @@ public class AppDirectResultTest extends TestCase {
                         + "</errorCode></result>",
                 valueAsString);
     }
+    
+    @Test
+    public void testFails() {
+        assertEquals(true, false);
+    }
 }
